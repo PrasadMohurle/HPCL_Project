@@ -1,0 +1,22 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "barlow", sans-serif;
+}
+ h3{
+  text-align: center;
+ }
+
+ h4,h5{
+  z-index: 10;
+ }
+
+ p{
+  font-size: large;
+  font-weight: 500;
+ }
+
+ span{
+  font-weight: 600;
+ }

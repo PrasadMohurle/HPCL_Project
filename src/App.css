@@ -1,0 +1,257 @@
+.App {
+  text-align: center;
+}
+
+img{
+  width: 35px;
+}
+
+.kerosene{
+  background: linear-gradient(180deg, #7df67d 22.18%, #45D645 100%);
+}
+
+.petrol{
+  background: linear-gradient(180deg, rgb(244, 118, 101) 22.18%, #E44E3A 100%);
+}
+
+.diesel{
+  background: linear-gradient(180deg, #d38cec 22.18%, #BB6BD9 100%);
+}
+
+.modal_body{
+  height: 450px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.depotWrapper{
+  width: 90%;
+  margin: auto;
+  border-radius: 20px;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.25);
+}
+
+.logo{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items:center;
+  gap: 4px;
+  padding-block: 8px;
+  cursor: pointer;
+}
+
+.stats{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 8px;
+  border-radius: 12px;
+}
+
+.locationStats{
+  background-color: rgb(255, 255, 255);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 10px;
+  padding-inline: 10px; 
+}
+
+.wrapper{
+  width: 80%;
+  margin: auto;
+  padding-top: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+#hsbarChart {
+  width: 90%;
+  margin: auto;
+}
+
+#hsbarToday {
+  border: 2px solid #363636;
+  border-radius: 5px;
+}
+
+#hsbarTomorrow {
+  border: 2px solid #363636;
+  border-radius: 5px;
+}
+
+.legend{
+  width: 90%;
+  display: flex;
+  gap: 80px;
+  justify-content:flex-end;
+}
+
+.legend div{
+  outline: solid 2px black;
+}
+
+.Diesel{
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  background-color: #BB6BD9;
+}
+
+.Diesel span{
+  margin-left: 25px;
+}
+
+.Petrol{
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  background-color: #E44E3A;
+}
+
+.Petrol span{
+  margin-left: 25px;
+}
+
+.Kerosene{
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  background-color: #45D645;
+}
+
+.Kerosene span{
+  margin-left: 25px;
+}
+
+.holiday{
+  float: right;
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  background-color: white;
+  word-wrap: none;
+  white-space: nowrap;
+}
+
+.holiday span{
+  margin-left: 25px;
+}
+
+.DaySlider {
+  margin: auto;
+  width: 60%;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 29px;
+  border-radius: 50px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+  box-shadow: inset -4px -4px 8px rgba(255, 255, 255, 0.30), inset 4px 4px 8px rgba(0, 0, 0, 0.30);
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: rgb(255, 255, 255);
+  cursor: pointer;
+  box-shadow: inset 4px 4px 8px -5px rgba(255, 255, 255, 0.5), inset -4px -4px 8px -3px rgba(0, 0, 0, 0.3);
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: rgb(255, 255, 255);
+  cursor: pointer;
+  box-shadow: inset 4px 4px 8px -5px rgba(255, 255, 255, 0.5), inset -4px -4px 8px -3px rgba(0, 0, 0, 0.3);
+}
+
+.calendar{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#datepicker{
+  border-radius: 100px;
+  height: 30px;
+  width: 200px;
+  padding-left: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.fluid_wave{
+  overflow: hidden;
+  position: relative;
+}
+
+.fluid_wave ::after,
+.fluid_wave ::before{
+  content: "";
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  top: -50%;
+  left: 50%;
+  background-color: #dadada22;
+}
+
+.fluid_wave ::after{
+  border-radius: 55%;
+  background: rgba(216, 216, 216, 0.2);
+  animation: fluid_wave 4s linear infinite;
+}
+
+.fluid_wave ::before{
+  border-radius: 40%;
+  background: rgba(255, 255, 255, 0.3);
+  animation: fluid_wave 4s linear infinite;
+  animation-delay: 400ms;
+}
+
+@keyframes fluid_wave{
+  0%{
+    transform: translate(-50%, 50%) rotate(0deg);
+    top:-30%;
+  }
+  25%{
+    transform: translate(-50%, 50%) rotate(10deg);
+    top: -40%;
+  }
+  50%{
+    transform: translate(-50%, 50%) rotate(15deg);
+    top: -50%;
+  }
+  75%{
+    transform: translate(-50%, 50%) rotate(-10deg);
+    top: -40%;
+  }
+  100%{
+    transform: translate(-50%, 50%) rotate(0deg);
+    top: -30%;
+  }
+}
+

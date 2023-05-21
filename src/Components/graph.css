@@ -1,0 +1,23 @@
+.ullage {
+    fill: rgb(225, 225, 225);
+    stroke: #676767;
+    stroke-width: 1;
+    opacity: 0.5
+}
+
+.product_volumn {
+    stroke: rgb(103, 103, 103);
+    stroke-width: 1;
+    opacity: 1
+}
+
+.svg{
+    background-color: rgb(255, 255, 255);
+}
+
+.SVG-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
