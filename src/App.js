@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import "bootstrap/dist/css/bootstrap.min.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
 import HSBarChart from './Components/HSBarChart';
@@ -13,7 +13,7 @@ function App() {
                 <h1>Pipeline Scheduler</h1>
                 <OilDepot></OilDepot>
                 <HSBarChart></HSBarChart>
-                <DaySlider></DaySlider>
+                {/* <DaySlider></DaySlider> */}
             </div>
         </Fragment>
     );

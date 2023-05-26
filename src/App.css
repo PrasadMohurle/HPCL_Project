@@ -77,19 +77,19 @@ img{
 }
 
 #hsbarToday {
-  border: 2px solid #363636;
+  border: 2px solid #000000;
   border-radius: 5px;
 }
 
 #hsbarTomorrow {
-  border: 2px solid #363636;
+  border: 2px solid #000000;
   border-radius: 5px;
 }
 
 .legend{
-  width: 90%;
+  width: 95%;
   display: flex;
-  gap: 80px;
+  gap: 70px;
   justify-content:flex-end;
 }
 
@@ -97,25 +97,25 @@ img{
   outline: solid 2px black;
 }
 
-.Diesel{
+.H6{
   width: 20px;
   height: 20px;
   border-radius: 100%;
   background-color: #BB6BD9;
 }
 
-.Diesel span{
+.H6 span{
   margin-left: 25px;
 }
 
-.Petrol{
+.M6{
   width: 20px;
   height: 20px;
   border-radius: 100%;
   background-color: #E44E3A;
 }
 
-.Petrol span{
+.M6 span{
   margin-left: 25px;
 }
 
@@ -127,6 +127,17 @@ img{
 }
 
 .Kerosene span{
+  margin-left: 25px;
+}
+
+.Naptha{
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  background-color: #5145d6;
+}
+
+.Naptha span{
   margin-left: 25px;
 }
 

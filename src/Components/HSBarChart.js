@@ -1,101 +1,147 @@
 import React, { useState, useEffect } from 'react';
 import HSBar from 'react-horizontal-stacked-bar-chart';
-import csvToJson from 'csvtojson';
-import data from './data.csv';
+import { read, utils } from 'xlsx';
+import ExcelFile from '../DataFiles/ScheduleMainPipeline.xlsx';
 
 const HSBarChart = () => {
     const [todayData, setTodayData] = useState([]);
     const [tomorrowData, setTomorrowData] = useState([]);
-    // let updatedData = [];
     const [sliderValue, setSliderValue] = useState(1);
 
+    const months = [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December',
+    ];
+    const month = months[new Date().getMonth()];
+    const year = new Date().getFullYear();
+
     useEffect(() => {
-        // console.log(`${sliderValue + 1}`);
-        // console.log('typeOf', typeof sliderValue);
-        let updatedData = [];
+        const convertExcelToJson = async () => {
+            try {
+                const response = await fetch(ExcelFile);
+                const data = await response.arrayBuffer();
+                const workbook = read(data, { type: 'array' });
+                const sheetName = workbook.SheetNames[0];
+                const worksheet = workbook.Sheets[sheetName];
+                const jsonOptions = { defval: 0, blankrows: true };
 
-        function determineSliderValue() {
-            var slider = document.getElementById('myRange');
-            var output = document.getElementById('demo');
-            setSliderValue(slider.value);
-            output.innerHTML = sliderValue;
-            slider.value = sliderValue;
+                const jsonData = utils.sheet_to_json(worksheet, jsonOptions);
 
-            slider.oninput = function () {
-                // this is like a onchange function
-                let parsedDay = parseInt(this.value);
-                output.innerHTML = this.value;
-                // console.log(this.value);
-                // console.log(typeof this.value);
+                const updatedData = jsonData.map((item) => {
+                    let color;
+                    switch (item.PRODUCT_CODE) {
+                        case 'H6':
+                            color = '#BB6BD9';
+                            break;
+                        case 'M6':
+                            color = '#E44E3A';
+                            break;
+                        case 'K':
+                            color = '#45D645';
+                            break;
+                        case 'LAN':
+                            color = '#5145d6';
+                            break;
+                        default:
+                            color = '#474747';
+                    }
+
+                    return {
+                        value: Math.floor(item.QUANTITY),
+                        name: item.PRODUCT_CODE,
+                        day: item.SCHEDULE_DAY + 1,
+                        color: color,
+                    };
+                });
 
                 setTodayData(
-                    updatedData.filter((item) => item.day === `${parsedDay}`)
+                    updatedData.filter((item) => item.day === sliderValue)
                 );
-
                 setTomorrowData(
-                    updatedData.filter(
-                        (item) => item.day === `${parsedDay + 1}`
-                    )
+                    updatedData.filter((item) => item.day === sliderValue + 1)
                 );
-            };
-        }
-        determineSliderValue();
+            } catch (error) {
+                console.error('Error reading Excel file:', error);
+            }
+        };
 
-        async function loadCsvData() {
-            const response = await fetch(data);
-            const csvData = await response.text();
-            // console.log(csvData);
-            const json = await csvToJson().fromString(csvData);
-            // console.log(json);
-            updatedData = json.map((item) => ({
-                ...item,
-                value: parseInt(item.value),
-            }));
-            setTodayData(updatedData.filter((item) => item.day === '1'));
-            setTomorrowData(updatedData.filter((item) => item.day === '2'));
-            // console.log(updatedData);
-        }
-        loadCsvData();
+        convertExcelToJson();
     }, [sliderValue]);
+
+    const handleSliderChange = (event) => {
+        const parsedDay = parseInt(event.target.value);
+        setSliderValue(parsedDay);
+    };
 
     return (
         <>
-            <div id="hsbarChart">
-                <div className="legend">
-                    <div className="holiday">
-                        <span>No Data</span>
-                    </div>
-                    <div className="Diesel">
-                        <span>Diesel</span>
-                    </div>
-                    <div className="Petrol">
-                        <span>Pertol</span>
-                    </div>
-                    <div className="Kerosene">
-                        <span>Kerosene</span>
-                    </div>
+            <div className="legend">
+                <div className="holiday">
+                    <span>No Data</span>
                 </div>
-                <h4>Today</h4>
+                <div className="Naptha">
+                    <span>LAN</span>
+                </div>
+                <div className="H6">
+                    <span>H6</span>
+                </div>
+                <div className="M6">
+                    <span>M6</span>
+                </div>
+                <div className="Kerosene">
+                    <span>K</span>
+                </div>
+            </div>
+            <div id="hsbarChart">
+                <h4>
+                    {sliderValue} {month} {year}
+                </h4>
                 <HSBar
                     id="hsbarToday"
                     data={todayData}
                     height={40}
-                    outlineWidth={0.1}
+                    outlineWidth={4}
                     outlineColor="black"
                     showValueIn
                 />
             </div>
 
             <div id="hsbarChart">
-                <h4>Tomorrow</h4>
+                <h4>
+                    {sliderValue + 1} {month} {year}
+                </h4>
                 <HSBar
                     id="hsbarTomorrow"
                     data={tomorrowData}
                     height={40}
-                    outlineWidth={0.1}
+                    outlineWidth={4}
                     outlineColor="black"
                     showValueIn
                 />
+            </div>
+
+            <div className="DaySlider">
+                <input
+                    type="range"
+                    min="1"
+                    max="31"
+                    className="slider"
+                    value={sliderValue}
+                    onChange={handleSliderChange}
+                ></input>
+                <p>
+                    Day: {sliderValue} {month} {year}
+                </p>
             </div>
         </>
     );

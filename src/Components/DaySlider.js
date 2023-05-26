@@ -9,7 +9,7 @@ const DaySlider = () => {
             <input
                 type="range"
                 min="1"
-                max="8"
+                max="31"
                 className="slider"
                 id="myRange"
             ></input>
