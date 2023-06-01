@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react';
 import HSBar from 'react-horizontal-stacked-bar-chart';
 import { read, utils } from 'xlsx';
 import ExcelFile from '../DataFiles/ScheduleMainPipeline.xlsx';
+import OilDepot from './OilDepot';
+// import ExcelFile from '../DataFiles/SolnV3.xlsx';
+// import ExcelFile from '../DataFiles/Stocks.xlsx';
 
 const HSBarChart = () => {
     const [todayData, setTodayData] = useState([]);
     const [tomorrowData, setTomorrowData] = useState([]);
-    const [sliderValue, setSliderValue] = useState(1);
+    const [sliderValue, setSliderValue] = useState(new Date().getDate());
 
     const months = [
         'January',
@@ -24,6 +27,7 @@ const HSBarChart = () => {
     ];
     const month = months[new Date().getMonth()];
     const year = new Date().getFullYear();
+    // const date = new Date().getDate()
 
     useEffect(() => {
         const convertExcelToJson = async () => {
@@ -85,6 +89,8 @@ const HSBarChart = () => {
 
     return (
         <>
+            <OilDepot sliderValue={sliderValue}></OilDepot>
+
             <div className="legend">
                 <div className="holiday">
                     <span>No Data</span>
@@ -117,9 +123,7 @@ const HSBarChart = () => {
             </div>
 
             <div id="hsbarChart">
-                <h4>
-                    {sliderValue + 1} {month} {year}
-                </h4>
+                  { sliderValue === 31 ? <h4> {sliderValue} {month} {year} </h4> : <h4> {sliderValue + 1} {month} {year} </h4> }
                 <HSBar
                     id="hsbarTomorrow"
                     data={tomorrowData}

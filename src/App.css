@@ -1,3 +1,5 @@
+@import "../node_modules/@syncfusion/ej2-react-grids/styles/material.css";
+
 .App {
   text-align: center;
 }
@@ -19,10 +21,31 @@ img{
 }
 
 .modal_body{
-  height: 450px;
+  height: 550px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 20px;
+}
+
+.modal-btns-list{
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.modal-btn{
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+  background-color: rgb(241, 207, 9);
+  font-weight: 500;
+}
+
+.modal-graph{
+  display: flex;
+  flex-direction: row;
   gap: 20px;
 }
 
@@ -38,7 +61,7 @@ img{
   flex-direction: column;
   justify-content: center;
   align-items:center;
-  gap: 4px;
+  gap: 1px;
   padding-block: 8px;
   cursor: pointer;
 }

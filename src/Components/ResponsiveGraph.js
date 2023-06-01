@@ -4,7 +4,7 @@ import './graph.css';
 const ResponsiveGraph = (props) => {
     const { data } = props;
 
-    console.log('data', data);
+    // console.log('data', data);
 
     var [productVolume_YAxis, setProductVolume_YAxis] = useState('');
     var [ullage, setUllage] = useState('');
@@ -51,7 +51,7 @@ const ResponsiveGraph = (props) => {
             var scaleCapacity = scale(capacity);
             var scaleVolume = scale(volume);
             setUllage('' + (scaleCapacity - scaleVolume));
-            setProductVolume_YAxis('' + (scaleCapacity - scaleVolume + 40));
+            setProductVolume_YAxis('' + (scaleCapacity - scaleVolume));
             setStringVolume('' + scaleVolume);
         };
 
@@ -60,24 +60,24 @@ const ResponsiveGraph = (props) => {
 
     return (
         <div className="SVG-container">
-
-            <svg width="90" height="380" className="svg">
+            <svg width="90" height="300" className="svg">
                 <g>
                     <rect
                         x="20"
-                        y="40"
+                        y="0"
                         width="50"
                         height={ullage}
                         className="ullage"
                     />
                     <text
                         x="32"
-                        y="60"
-                        font-size="15"
+                        y="20"
+                        fontSize="15"
                         fontWeight="500"
                         fill="black"
                     >
                         {100 - Math.round((volume / capacity) * 100)}%
+                        {/* {capacity} */}
                     </text>
                 </g>
                 <g>
@@ -91,12 +91,13 @@ const ResponsiveGraph = (props) => {
                     />
                     <text
                         x="32"
-                        y="330"
-                        font-size="15"
+                        y="290"
+                        fontSize="15"
                         fontWeight="500"
                         fill="black"
                     >
-                        {Math.round((volume / capacity) * 100)}%
+                        {Math.round((volume / capacity) * 100)}% 
+                        {/* {volume} */}
                     </text>
                 </g>
             </svg>

@@ -10,6 +10,9 @@ const DepotLocation = (props) => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+
+
+
     return (
         <>
             <div className="logo" onClick={handleShow}>
@@ -23,6 +26,7 @@ const DepotLocation = (props) => {
                 key={name}
                 products={oilDepotProducts}
                 jsonData={jsonData} 
+                sliderValue = {props.sliderValue}
             ></MyModal>
         </>
     );

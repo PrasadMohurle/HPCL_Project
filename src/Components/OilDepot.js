@@ -6,11 +6,10 @@ import csvToJson from 'csvtojson';
 import productData from './ProductData.csv';
 import DepotLocation from './DepotLocation';
 
-const OilDepot = () => {
+const OilDepot = (props) => {
     const [oilDepotLocation, setOilDepotLocation] = useState([]);
     const [oilDepotProducts, setOilDepotProducts] = useState([]);
     const [jsonData, setJsonData] = useState([]);
-
 
     const responsive = {
         superLargeDesktop: {
@@ -52,7 +51,7 @@ const OilDepot = () => {
     }, []);
 
     const depotLocation = oilDepotLocation.map((item) => (
-        <DepotLocation key={item} name={item} oilDepotProducts={oilDepotProducts} jsonData={jsonData}/>
+        <DepotLocation key={item} name={item} oilDepotProducts={oilDepotProducts} jsonData={jsonData} sliderValue={props.sliderValue}/>
     ));
 
     return (
