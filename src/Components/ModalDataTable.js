@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Table from 'react-bootstrap/Table';
-import ExcelFile from '../DataFiles/Stocks.xlsx';
-import { read, utils } from 'xlsx';
 import '../App.css';
 
 const ModalDataTable = (props) => {
-    const { sliderValue, locationName } = props;
+    const { sliderValue, locationName, jsonDataFromExcel, fileName } = props;
 
     // const [excelToJsonData, setExcelToJsonData] = useState({});
     const [product, setProduct] = useState([]);
@@ -28,81 +26,208 @@ const ModalDataTable = (props) => {
     const month = months[new Date().getMonth()];
     const year = new Date().getFullYear();
 
-    useEffect(() => {
-        const convertExcelToJson = async () => {
-            try {
-                const response = await fetch(ExcelFile);
-                const data = await response.arrayBuffer();
-                const workbook = read(data, { type: 'array' });
-                const sheetName = workbook.SheetNames[0];
-                const worksheet = workbook.Sheets[sheetName];
-                const jsonOptions = { defval: 0, blankrows: true };
-                const jsonData = utils.sheet_to_json(worksheet, jsonOptions);
-
-        //         setExcelToJsonData(jsonData);
-        //     } catch (error) {
-        //         console.error('Error reading Excel file:', error);
-        //     }
-        // };
-
-        // const getProductsAndValues = async () => {
-        //     try {
-                const updatedData = jsonData.map((item) => {
-                    const excelDate = item.DATE_OF_DEMAND;
-                    const millisecondsPerDay = 24 * 60 * 60 * 1000;
-                    const excelStartDate = new Date(1904, 0, 1); // Excel's start date
-                    const dateValue = new Date(
-                        excelStartDate.getTime() +
-                            (excelDate - 1) * millisecondsPerDay
-                    );
-
-                    const formattedDate = parseInt(`${dateValue.getDate()}`);
-
-                    if (formattedDate === sliderValue) {
-                        return item;
-                    }
-                });
-
-                const dataOnDate = updatedData[sliderValue];
-
-                const filteredData = {};
-                for (let key in dataOnDate) {
-                    if (key.startsWith(locationName)) {
-                        filteredData[key] = dataOnDate[key];
-                    }
-                }
-
-                const newProducts = [];
-                for (let key in filteredData) {
-                    var productNames = key.split('_');
-
-                    if (productNames.length < 3) {
-                        newProducts.push(productNames[1]);
-                    }
-                }
-                setProduct(newProducts);
-                console.log(newProducts);
-
-                const productValues = newProducts.map((key) =>
-                    Math.ceil(filteredData[`${locationName}_${key}`])
+    const readingStockData = async () => {
+        // console.log('Stock Data', jsonDataFromExcel);
+        try {
+            const updatedData = jsonDataFromExcel.map((item) => {
+                const excelDate = item.DATE_OF_DEMAND;
+                const millisecondsPerDay = 24 * 60 * 60 * 1000;
+                const excelStartDate = new Date(1904, 0, 1); // Excel's start date
+                const dateValue = new Date(
+                    excelStartDate.getTime() +
+                        (excelDate - 1) * millisecondsPerDay
                 );
 
-                setProductValue(productValues);
-            } catch (error) {
-                console.error('Error reading Excel file:', error);
+                const formattedDate = parseInt(`${dateValue.getDate()}`);
+
+                if (formattedDate === sliderValue) {
+                    return item;
+                }
+                return null;
+            });
+
+            const dataOnDate = updatedData[sliderValue];
+
+            const filteredData = {};
+            for (let key in dataOnDate) {
+                if (key.startsWith(locationName)) {
+                    filteredData[key] = dataOnDate[key];
+                }
             }
-        };
-        convertExcelToJson();
-        // getProductsAndValues();
-    }, []);
+
+            const newProducts = [];
+            for (let key in filteredData) {
+                var productNames = key.split('_');
+
+                if (productNames.length < 3) {
+                    newProducts.push(productNames[1]);
+                }
+            }
+            setProduct(newProducts);
+
+            const productValues = newProducts.map((key) =>
+                Math.ceil(filteredData[`${locationName}_${key}`])
+            );
+            setProductValue(productValues);
+        } catch (error) {
+            console.error('Error reading JSON Data:', error);
+        }
+    };
+
+    const readingTankageData = async () => {
+        try {
+            // console.log('Tankage Data', jsonDataFromExcel);
+
+            const TankageData = jsonDataFromExcel[0];
+
+            const filteredDataOnLocation = {};
+            for (let key in TankageData) {
+                if (key.startsWith(locationName)) {
+                    filteredDataOnLocation[key] = TankageData[key];
+                }
+            }
+            // console.log(filteredDataOnLocation);
+
+            const newProducts = [];
+            for (let key in filteredDataOnLocation) {
+                var productNames = key.split('_');
+
+                if (productNames.length < 3) {
+                    newProducts.push(productNames[1]);
+                }
+            }
+            setProduct(newProducts);
+
+            const productValues = newProducts.map((key) =>
+                Math.ceil(filteredDataOnLocation[`${locationName}_${key}`])
+            );
+            setProductValue(productValues);
+        } catch (error) {
+            console.error('Error reading JSON Data:', error);
+        }
+    };
+
+    const readingDemandData = async () => {
+        try {
+            // console.log('Demand Data', jsonDataFromExcel);
+
+            const updatedData = jsonDataFromExcel.map((item) => {
+                const excelDate = item.DATE_OF_DEMAND;
+                const millisecondsPerDay = 24 * 60 * 60 * 1000;
+                const excelStartDate = new Date(1904, 0, 1); // Excel's start date
+                const dateValue = new Date(
+                    excelStartDate.getTime() +
+                        (excelDate - 1) * millisecondsPerDay
+                );
+
+                const formattedDate = parseInt(`${dateValue.getDate()}`);
+
+                if (formattedDate === sliderValue) {
+                    return item;
+                }
+                return null;
+            });
+
+            const dataOnDate = updatedData[sliderValue - 1];
+
+            const filteredData = {};
+            for (let key in dataOnDate) {
+                if (key.startsWith(locationName)) {
+                    filteredData[key] = dataOnDate[key];
+                }
+            }
+
+            const newProducts = [];
+            for (let key in filteredData) {
+                var productNames = key.split('_');
+
+                if (productNames.length < 3) {
+                    newProducts.push(productNames[1]);
+                }
+            }
+            setProduct(newProducts);
+
+            const productValues = newProducts.map((key) =>
+                Math.ceil(filteredData[`${locationName}_${key}`])
+            );
+            setProductValue(productValues);
+        } catch (error) {
+            console.error('Error reading JSON Data:', error);
+        }
+    };
+
+    const readingDroppingData = async () => {
+        try {
+            // console.log('Dropping Data', jsonDataFromExcel);
+
+            const updatedData = jsonDataFromExcel.map((item) => {
+                const excelDate = item.SCHEDULE_DAY;
+
+                if(excelDate === sliderValue){
+                    return item;
+                }
+                return null;
+            })
+
+            // console.log(updatedData);
+
+            const dataOnDate = updatedData[sliderValue];
+
+            // console.log(dataOnDate);
+
+            const filteredData = {};
+            for (let key in dataOnDate) {
+                if (key.startsWith(locationName)) {
+                    filteredData[key] = dataOnDate[key];
+                }
+            }
+
+            const newProducts = [];
+            for (let key in filteredData) {
+                var productNames = key.split('_');
+
+                if (productNames.length < 3) {
+                    newProducts.push(productNames[1]);
+                }
+            }
+            setProduct(newProducts);
+
+            const productValues = newProducts.map((key) =>
+                Math.ceil(filteredData[`${locationName}_${key}`])
+            );
+            setProductValue(productValues);
+
+        } catch (error) {
+            console.error('Error reading JSON Data:', error);
+        }
+    };
+
+    useEffect(() => {
+        switch (fileName) {
+            case 'Stock':
+                readingStockData();
+                break;
+            case 'Tankage':
+                readingTankageData();
+                break;
+            case 'Demand':
+                readingDemandData();
+                break;
+            case 'Dropping':
+                readingDroppingData();
+                break;
+            default:
+        }
+    },// eslint-disable-next-line
+     [jsonDataFromExcel]);
 
     return (
         <Table striped bordered hover>
             <thead>
                 <tr>
                     <th>Date</th>
-                    {product.map((item) => (
-                        <th key={item}>{item}</th>
+                    {product.map((item, index) => (
+                        <th key={index}>{item}</th>
                     ))}
                 </tr>
             </thead>
@@ -111,8 +236,8 @@ const ModalDataTable = (props) => {
                     <td>
                         {sliderValue} {month} {year}
                     </td>
-                    {productValue.map((item) => (
-                        <td key={item}>{item}</td>
+                    {productValue.map((item, index) => (
+                        <td key={index}>{item}</td>
                     ))}
                 </tr>
             </tbody>

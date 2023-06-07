@@ -5,7 +5,7 @@ import MyModal from './MyModal';
 const DepotLocation = (props) => {
     const [show, setShow] = useState(false);
 
-    const {name, oilDepotProducts, jsonData} = props;
+    const {name, oilDepotProducts, jsonDataStocks, jsonDataTankage} = props;
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -15,8 +15,8 @@ const DepotLocation = (props) => {
 
     return (
         <>
-            <div className="logo" onClick={handleShow}>
-                <img src="./images/oilContainer.png" alt="oilContainer" />
+            <div className="logo">
+                <img src="./images/oilContainer.png" alt="oilContainer" onClick={handleShow}/>
                 <h5>{name}</h5>
             </div>
             <MyModal
@@ -25,7 +25,8 @@ const DepotLocation = (props) => {
                 locationName={name}
                 key={name}
                 products={oilDepotProducts}
-                jsonData={jsonData} 
+                jsonDataStocks={jsonDataStocks} 
+                jsonDataTankage={jsonDataTankage}
                 sliderValue = {props.sliderValue}
             ></MyModal>
         </>

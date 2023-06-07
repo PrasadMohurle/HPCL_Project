@@ -9,13 +9,21 @@ const ResponsiveGraph = (props) => {
     var [productVolume_YAxis, setProductVolume_YAxis] = useState('');
     var [ullage, setUllage] = useState('');
     var [stringVolume, setStringVolume] = useState('');
+   
 
-    var capacity = parseInt(data.Capacity);
-    var volume = parseInt(data.Volume);
+    var capacity = parseInt(50000);
+    var volume = data;
 
     let domain = [0, capacity]; // input data values
     let range = [0, 300]; // output values
 
+
+
+
+
+
+
+    
     function scale(value) {
         let domainMin = domain[0];
         let domainMax = domain[1];
@@ -54,7 +62,7 @@ const ResponsiveGraph = (props) => {
             setProductVolume_YAxis('' + (scaleCapacity - scaleVolume));
             setStringVolume('' + scaleVolume);
         };
-
+        // console.log("data", data);
         calculation();
     }, [data]);
 
@@ -68,16 +76,17 @@ const ResponsiveGraph = (props) => {
                         width="50"
                         height={ullage}
                         className="ullage"
+                        
                     />
                     <text
-                        x="32"
+                        x="30"
                         y="20"
-                        fontSize="15"
+                        fontSize="12"
                         fontWeight="500"
                         fill="black"
                     >
-                        {100 - Math.round((volume / capacity) * 100)}%
-                        {/* {capacity} */}
+                        {/* {100 - Math.round((volume / capacity) * 100)}% */}
+                        {capacity}
                     </text>
                 </g>
                 <g>
@@ -88,18 +97,20 @@ const ResponsiveGraph = (props) => {
                         height={stringVolume}
                         className="product_volumn"
                         style={{ fill: fillColor }}
+                        
                     />
                     <text
-                        x="32"
+                        x="30"
                         y="290"
-                        fontSize="15"
+                        fontSize="12"
                         fontWeight="500"
                         fill="black"
                     >
-                        {Math.round((volume / capacity) * 100)}% 
-                        {/* {volume} */}
+                        {/* {Math.round((volume / capacity) * 100)}% */}
+                        {volume}
                     </text>
                 </g>
+                
             </svg>
             <h5>{data.group}</h5>
         </div>
