@@ -2,28 +2,18 @@ import React, { useEffect, useState } from 'react';
 import './graph.css';
 
 const ResponsiveGraph = (props) => {
-    const { data } = props;
-
-    // console.log('data', data);
+    const { volumeData, capacityData, productName } = props;
 
     var [productVolume_YAxis, setProductVolume_YAxis] = useState('');
     var [ullage, setUllage] = useState('');
     var [stringVolume, setStringVolume] = useState('');
-   
 
-    var capacity = parseInt(50000);
-    var volume = data;
+    const capacity = capacityData;
+    var volume = volumeData;
 
     let domain = [0, capacity]; // input data values
     let range = [0, 300]; // output values
 
-
-
-
-
-
-
-    
     function scale(value) {
         let domainMin = domain[0];
         let domainMax = domain[1];
@@ -37,22 +27,24 @@ const ResponsiveGraph = (props) => {
         return scaledValue;
     }
 
-    const getFillColor = (group) => {
-        switch (group) {
-            case 'Diesel':
-                return '#BB6BD9';
-            case 'Petrol':
-                return '#E44E3A';
-            case 'Kerosene':
-                return '#45D645';
+    const getFillColor = (productName) => {
+        switch (productName) {
             case 'H6':
+                return '#BB6BD9';
+            case 'H4':
+                return '#ffa835';
+            case 'M6':
+                return '#E44E3A';
+            case 'K':
+                return '#45D645';
+            case 'LAN':
                 return '#008AFa';
             default:
                 return '#676767'; // Default color if group doesn't match any case
         }
     };
 
-    const fillColor = getFillColor(data.group);
+    const fillColor = getFillColor(productName);
 
     useEffect(() => {
         const calculation = () => {
@@ -64,7 +56,8 @@ const ResponsiveGraph = (props) => {
         };
         // console.log("data", data);
         calculation();
-    }, [data]);
+    },// eslint-disable-next-line
+     [volumeData, capacityData]);
 
     return (
         <div className="SVG-container">
@@ -76,16 +69,15 @@ const ResponsiveGraph = (props) => {
                         width="50"
                         height={ullage}
                         className="ullage"
-                        
                     />
                     <text
-                        x="30"
+                        x="45"
                         y="20"
-                        fontSize="12"
+                        fontSize="16"
                         fontWeight="500"
                         fill="black"
+                        textAnchor="middle" 
                     >
-                        {/* {100 - Math.round((volume / capacity) * 100)}% */}
                         {capacity}
                     </text>
                 </g>
@@ -97,22 +89,20 @@ const ResponsiveGraph = (props) => {
                         height={stringVolume}
                         className="product_volumn"
                         style={{ fill: fillColor }}
-                        
                     />
                     <text
-                        x="30"
+                        x="45"
                         y="290"
-                        fontSize="12"
+                        fontSize="16"
                         fontWeight="500"
                         fill="black"
+                        textAnchor="middle" 
                     >
-                        {/* {Math.round((volume / capacity) * 100)}% */}
                         {volume}
                     </text>
                 </g>
-                
             </svg>
-            <h5>{data.group}</h5>
+            <h5>{productName}</h5>
         </div>
     );
 };

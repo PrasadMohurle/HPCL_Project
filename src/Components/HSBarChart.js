@@ -47,6 +47,9 @@ const HSBarChart = () => {
                         case 'H6':
                             color = '#BB6BD9';
                             break;
+                        case 'H4':
+                            color = '#ffa835';
+                            break;
                         case 'M6':
                             color = '#E44E3A';
                             break;
@@ -101,6 +104,9 @@ const HSBarChart = () => {
                 <div className="H6">
                     <span>H6</span>
                 </div>
+                <div className="H4">
+                    <span>H4</span>
+                </div>
                 <div className="M6">
                     <span>M6</span>
                 </div>
@@ -123,7 +129,15 @@ const HSBarChart = () => {
             </div>
 
             <div id="hsbarChart">
-                  { sliderValue === 31 ? <h4> {sliderValue} {month} {year} </h4> : <h4> {sliderValue + 1} {month} {year} </h4> }
+                {sliderValue === 31 ? (
+                    <h4>
+                        {sliderValue} {month} {year}
+                    </h4>
+                ) : (
+                    <h4>
+                        {sliderValue + 1} {month} {year}
+                    </h4>
+                )}
                 <HSBar
                     id="hsbarTomorrow"
                     data={tomorrowData}

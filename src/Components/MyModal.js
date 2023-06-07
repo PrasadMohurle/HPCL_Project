@@ -11,18 +11,14 @@ import { read, utils } from 'xlsx';
 import '../App.css';
 
 function MyModal(props) {
-    const [filteredStockDataOnLocation, setFilteredStockDataOnLocation] =
-        useState([]);
-    const [filteredTankageDataOnLocation, setFilteredTankageDataOnLocation] =
-        useState([]);
-
+    const [filteredStockDataOnLocation, setFilteredStockDataOnLocation] = useState([]);
+    const [filteredTankageDataOnLocation, setFilteredTankageDataOnLocation] = useState([]);
     const [jsonDataFromExcel, setsonDataFromExcel] = useState([]);
     const [fileName, setFileName] = useState('');
-
     const [activeButton, setActiveButton] = useState(null);
+    const [products, setProducts] = useState([]);
 
-    const { show, handleClose, locationName, jsonDataStocks, jsonDataTankage } =
-        props;
+    const { show, handleClose, locationName, jsonDataStocks, jsonDataTankage } = props;
 
     var tankageDataArray = [];
 
@@ -73,7 +69,9 @@ function MyModal(props) {
             if (productNames.length < 3) {
                 newProducts.push(productNames[1]);
             }
+            setProducts(newProducts);
         }
+
 
         const productValues = newProducts.map((key) =>
             Math.ceil(locationData[`${locationName}_${key}`])
@@ -103,13 +101,6 @@ function MyModal(props) {
     // console.log("stock",filteredStockDataOnLocation);
     // console.log("tankge",filteredTankageDataOnLocation);
 
-    var filteredDataOnLocation = [
-        ...filteredStockDataOnLocation,
-        ...filteredTankageDataOnLocation,
-    ];
-
-    // console.log(filteredDataOnLocation);
-
     async function convertExcelToJson(excelData, file) {
         if (fileName !== file) {
             setFileName(file);
@@ -130,6 +121,25 @@ function MyModal(props) {
         }
     }
 
+    const responsiveGraph = filteredStockDataOnLocation.map((volumeData, index) => {
+        const capacityData = filteredTankageDataOnLocation[index];
+        const productName = products[index];
+        const key = `${volumeData}-${capacityData}`;
+
+        if (capacityData === 0) {
+            return null;
+          }
+        
+        return (
+          <ResponsiveGraph
+            key={key}
+            volumeData={volumeData}
+            capacityData={capacityData}
+            productName={productName}
+          />
+        );
+      });
+
     return (
         <>
             <Modal
@@ -145,9 +155,7 @@ function MyModal(props) {
 
                 <Modal.Body className="modal_body">
                     <div className="modal-graph">
-                        {filteredDataOnLocation.map((data, index) => (
-                            <ResponsiveGraph data={data} key={index} />
-                        ))}
+                        {responsiveGraph}
                     </div>
                     <div className="modal-btns-list">
                         <button
@@ -207,7 +215,7 @@ function MyModal(props) {
                 <Modal.Footer>
                     <button
                         // variant="secondary"
-                        className="closeButton btn btn-secondary"
+                        className="closeButton btn btn-danger"
                         onClick={handleClose}
                     >
                         Close

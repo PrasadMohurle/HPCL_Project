@@ -5,7 +5,6 @@ import '../App.css';
 const ModalDataTable = (props) => {
     const { sliderValue, locationName, jsonDataFromExcel, fileName } = props;
 
-    // const [excelToJsonData, setExcelToJsonData] = useState({});
     const [product, setProduct] = useState([]);
     const [productValue, setProductValue] = useState([]);
 
@@ -27,7 +26,6 @@ const ModalDataTable = (props) => {
     const year = new Date().getFullYear();
 
     const readingStockData = async () => {
-        // console.log('Stock Data', jsonDataFromExcel);
         try {
             const updatedData = jsonDataFromExcel.map((item) => {
                 const excelDate = item.DATE_OF_DEMAND;
@@ -76,8 +74,6 @@ const ModalDataTable = (props) => {
 
     const readingTankageData = async () => {
         try {
-            // console.log('Tankage Data', jsonDataFromExcel);
-
             const TankageData = jsonDataFromExcel[0];
 
             const filteredDataOnLocation = {};
@@ -86,7 +82,6 @@ const ModalDataTable = (props) => {
                     filteredDataOnLocation[key] = TankageData[key];
                 }
             }
-            // console.log(filteredDataOnLocation);
 
             const newProducts = [];
             for (let key in filteredDataOnLocation) {
@@ -109,8 +104,6 @@ const ModalDataTable = (props) => {
 
     const readingDemandData = async () => {
         try {
-            // console.log('Demand Data', jsonDataFromExcel);
-
             const updatedData = jsonDataFromExcel.map((item) => {
                 const excelDate = item.DATE_OF_DEMAND;
                 const millisecondsPerDay = 24 * 60 * 60 * 1000;
@@ -158,8 +151,6 @@ const ModalDataTable = (props) => {
 
     const readingDroppingData = async () => {
         try {
-            // console.log('Dropping Data', jsonDataFromExcel);
-
             const updatedData = jsonDataFromExcel.map((item) => {
                 const excelDate = item.SCHEDULE_DAY;
 
@@ -169,11 +160,7 @@ const ModalDataTable = (props) => {
                 return null;
             })
 
-            // console.log(updatedData);
-
             const dataOnDate = updatedData[sliderValue];
-
-            // console.log(dataOnDate);
 
             const filteredData = {};
             for (let key in dataOnDate) {
@@ -219,7 +206,7 @@ const ModalDataTable = (props) => {
             default:
         }
     },// eslint-disable-next-line
-     [jsonDataFromExcel]);
+    [jsonDataFromExcel]);
 
     return (
         <Table striped bordered hover>

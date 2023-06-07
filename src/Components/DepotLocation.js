@@ -5,13 +5,10 @@ import MyModal from './MyModal';
 const DepotLocation = (props) => {
     const [show, setShow] = useState(false);
 
-    const {name, oilDepotProducts, jsonDataStocks, jsonDataTankage} = props;
+    const {name, oilDepotProducts, jsonDataStocks, jsonDataTankage, sliderValue} = props;
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-
-
-
 
     return (
         <>
@@ -27,7 +24,7 @@ const DepotLocation = (props) => {
                 products={oilDepotProducts}
                 jsonDataStocks={jsonDataStocks} 
                 jsonDataTankage={jsonDataTankage}
-                sliderValue = {props.sliderValue}
+                sliderValue = {sliderValue}
             ></MyModal>
         </>
     );

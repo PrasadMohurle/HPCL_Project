@@ -2,16 +2,13 @@ import React, { useState, useEffect } from 'react';
 import '../App.css';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
-// import csvToJson from 'csvtojson';
-// import productData from './ProductData.csv';
 import DepotLocation from './DepotLocation';
 import stocksData from '../DataFiles/Stocks.xlsx';
 import tankageData from '../DataFiles/Tankage.xlsx';
-
 import { read, utils } from 'xlsx';
 
 const OilDepot = (props) => {
-    const {sliderValue} = props;
+    const { sliderValue } = props;
 
     const [oilDepotLocation, setOilDepotLocation] = useState([]);
     const [oilDepotProducts, setOilDepotProducts] = useState([]);
@@ -41,7 +38,6 @@ const OilDepot = (props) => {
             slidesToSlide: 1,
         },
     };
-    
 
     async function ExcelToJson_Stock() {
         const response = await fetch(stocksData);
@@ -51,7 +47,6 @@ const OilDepot = (props) => {
         const worksheet = workbook.Sheets[sheetName];
         const jsonOptions = { defval: 0, blankrows: true };
         const json = utils.sheet_to_json(worksheet, jsonOptions);
-        // console.log(json);
 
         var dataOnDate = [];
         const updatedData = json.map((item) => {
@@ -63,59 +58,41 @@ const OilDepot = (props) => {
             );
 
             const formattedDate = parseInt(`${dateValue.getDate()}`);
-            // console.log(formattedDate);
             if (formattedDate === props.sliderValue) {
                 return item;
             }
             return null;
         });
-        // console.log(updatedData);
         dataOnDate.push(updatedData[sliderValue]);
-        // console.log(dataOnDate);
-
-        // const filteredData = {};
-        // for (let key in dataOnDate) {
-        //     if (key.startsWith(dataOnDate)) {
-        //         console.log(dataOnDate[key]);
-        //         filteredData[key] = dataOnDate[key];
-        //         console.log(filteredData);
-        //     }
-        // }
 
         const locationName = [];
         for (let key in dataOnDate[0]) {
-            // console.log(dataOnDate);
-            var productNames = key.split('_');
+            var loc = key.split('_');
 
-            if (productNames.length < 3) {
-                locationName.push(productNames[0]);
+            if (loc.length < 3) {
+                locationName.push(loc[0]);
             }
         }
-        // console.log(locationName);
-
         const uniqueLocations = Array.from(
             new Set(locationName.map((item) => item))
         );
-        // console.log(uniqueLocations);
-
 
         const products = [];
-            for (let key in dataOnDate[0]) {
-                var productNames = key.split('_');
+        for (let key in dataOnDate[0]) {
+            var productNames = key.split('_');
 
-                if (productNames.length < 3) {
-                    products.push(productNames[1]);
-                }
+            if (productNames.length < 3) {
+                products.push(productNames[1]);
             }
-        // console.log(products);    
-        const uniqueProducts = Array.from(new Set(products.map((item) => item)));
-        // console.log(uniqueProducts);
+        }
+        const uniqueProducts = Array.from(
+            new Set(products.map((item) => item))
+        );
 
         setOilDepotLocation(uniqueLocations);
         setOilDepotProducts(uniqueProducts);
         setJsonDataStocks(dataOnDate);
     }
-
 
     async function ExcelToJson_Tankage() {
         const response = await fetch(tankageData);
@@ -127,31 +104,14 @@ const OilDepot = (props) => {
         const json = utils.sheet_to_json(worksheet, jsonOptions);
 
         var TankageData = json[0];
-        // console.log(TankageData);
-
         setJsonDataTankage(TankageData);
     }
 
-    
-      
-
-    
-
     useEffect(() => {
-        // async function loadCsvData() {
-        //     const response = await fetch(productData);
-        //     const csvData = await response.text();
-        //     const json = await csvToJson().fromString(csvData);
-        //     const uniqueLocations = Array.from(new Set(json.map((item) => item.location)));
-        //     const uniqueProducts = Array.from(new Set(json.map((item) => item.group)));
-
-        //     setOilDepotLocation(uniqueLocations);
-        //     setOilDepotProducts(uniqueProducts);
-        //     setJsonData(json);
-        // }
         ExcelToJson_Stock();
         ExcelToJson_Tankage();
-    }, [sliderValue]);
+    },// eslint-disable-next-line
+    [sliderValue]);
 
     const depotLocation = oilDepotLocation.map((item) => (
         <DepotLocation
