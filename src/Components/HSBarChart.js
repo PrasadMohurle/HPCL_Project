@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import HSBar from 'react-horizontal-stacked-bar-chart';
 import { read, utils } from 'xlsx';
 import ExcelFile from '../DataFiles/ScheduleMainPipeline.xlsx';
 import OilDepot from './OilDepot';
+import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 // import ExcelFile from '../DataFiles/SolnV3.xlsx';
 // import ExcelFile from '../DataFiles/Stocks.xlsx';
 
@@ -90,6 +92,18 @@ const HSBarChart = () => {
         setSliderValue(parsedDay);
     };
 
+    const handlePreviousButtonClick = () => {
+        if (sliderValue > 1) {
+            setSliderValue((prevValue) => prevValue - 1);
+        }
+    };
+
+    const handleNextButtonClick = () => {
+        if (sliderValue < 31) {
+            setSliderValue((prevValue) => prevValue + 1);
+        }
+    };
+
     return (
         <>
             <OilDepot sliderValue={sliderValue}></OilDepot>
@@ -149,14 +163,28 @@ const HSBarChart = () => {
             </div>
 
             <div className="DaySlider">
-                <input
-                    type="range"
-                    min="1"
-                    max="31"
-                    className="slider"
-                    value={sliderValue}
-                    onChange={handleSliderChange}
-                ></input>
+                <div className="slider-container">
+                    <button
+                        className="slider-btn"
+                        onClick={handlePreviousButtonClick}
+                    >
+                        <FontAwesomeIcon icon={faAngleLeft} />
+                    </button>
+                    <input
+                        type="range"
+                        min="1"
+                        max="31"
+                        className="slider"
+                        value={sliderValue}
+                        onChange={handleSliderChange}
+                    ></input>
+                    <button
+                        className="slider-btn"
+                        onClick={handleNextButtonClick}
+                    >
+                        <FontAwesomeIcon icon={faAngleRight} />
+                    </button>
+                </div>
                 <p>
                     Day: {sliderValue} {month} {year}
                 </p>
