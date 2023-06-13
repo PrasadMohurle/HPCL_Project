@@ -198,19 +198,30 @@ img{
 
 .DaySlider {
   margin: auto;
-  width: 80%;
-  
+  width: 80%; 
+}
+
+.slider-btn:hover{
+  background: #e0e0e0;
+}
+
+.left-btn:hover{
+  transform: translateX(-3px);
+}
+
+.right-btn:hover{
+  transform: translateX(3px);
 }
 
 .slider-container{
   display: flex;
   flex-direction: row;
-  gap: 10px;
+  gap: 20px;
 }
 
 .slider-btn{
   border: none;
-  background: #d3d3d3;
+  background: #eeeeee;
   box-shadow: inset 2px 2px 5px rgba(255, 255, 255, 0.896), inset -1px -1px 5px rgba(255, 255, 255, 0.896),  2px 2px 5px rgba(0, 0, 0, 0.30);
   width: 30px;
   height: 30px;

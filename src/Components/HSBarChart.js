@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import HSBar from 'react-horizontal-stacked-bar-chart';
-import { read, utils } from 'xlsx';
 import ExcelFile from '../DataFiles/ScheduleMainPipeline.xlsx';
 import OilDepot from './OilDepot';
+import TableView from './TableView';
+import { read, utils } from 'xlsx';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import './TableView.css';
 // import ExcelFile from '../DataFiles/SolnV3.xlsx';
 // import ExcelFile from '../DataFiles/Stocks.xlsx';
 
@@ -165,7 +167,7 @@ const HSBarChart = () => {
             <div className="DaySlider">
                 <div className="slider-container">
                     <button
-                        className="slider-btn"
+                        className="slider-btn left-btn"
                         onClick={handlePreviousButtonClick}
                     >
                         <FontAwesomeIcon icon={faAngleLeft} />
@@ -179,7 +181,7 @@ const HSBarChart = () => {
                         onChange={handleSliderChange}
                     ></input>
                     <button
-                        className="slider-btn"
+                        className="slider-btn right-btn"
                         onClick={handleNextButtonClick}
                     >
                         <FontAwesomeIcon icon={faAngleRight} />
@@ -188,6 +190,21 @@ const HSBarChart = () => {
                 <p>
                     Day: {sliderValue} {month} {year}
                 </p>
+            </div>
+
+            <div className='fillLine-Table'>
+                <div>
+                    <h1>
+                        {sliderValue} {month} {year} Table
+                    </h1>
+                    <TableView data={todayData} />
+                </div>
+                <div>
+                    <h1>
+                        {sliderValue + 1} {month} {year} Table
+                    </h1>
+                    <TableView data={tomorrowData} />
+                </div>
             </div>
         </>
     );
