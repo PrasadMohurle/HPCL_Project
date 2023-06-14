@@ -22,6 +22,28 @@
     overflow-X: scroll;
 }
 
+.demo-table-container::-webkit-scrollbar {
+    width: 10px; /* Width of the scrollbar */
+}
+
+.demo-table-container::-webkit-scrollbar-track {
+    background-color: #f1f1f1; /* Color of the scrollbar track */
+    border-radius: 50px;
+    box-shadow: inset -4px -4px 8px rgba(255, 255, 255, 0.30), inset 4px 4px 8px rgba(0, 0, 0, 0.30);
+
+}
+
+.demo-table-container::-webkit-scrollbar-thumb {
+    background-color: #bbbbbb; /* Color of the scrollbar thumb */
+    border-radius: 50px; /* Rounded corners of the scrollbar thumb */
+    box-shadow: inset 4px 4px 8px -5px rgba(255, 255, 255, 0.5), inset -4px -4px 8px -3px rgba(0, 0, 0, 0.3);
+
+}
+
+.demo-table-container::-webkit-scrollbar-thumb:hover {
+    background-color: #a1a1a1; /* Color of the scrollbar thumb on hover */
+}
+
 .demo-table-head{
     position: sticky;
     left: 0;
