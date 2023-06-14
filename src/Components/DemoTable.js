@@ -24,8 +24,11 @@ const DemoTable = ({ data }) => {
         return <p>No data available.</p>;
     }
 
-    const tableData = data.map(({ color, day, ...rest }, index) => ({
-        'Sr.': index + 1,
+    const tableData = data.map(({ color, day, name, value, ...rest }, index) => ({
+        'Sr. Num': index + 1,
+        Quantity: value,
+        Product: name,
+        
         ...rest,
     }));
 
