@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import HSBar from 'react-horizontal-stacked-bar-chart';
 import ExcelFile from '../DataFiles/ScheduleMainPipeline.xlsx';
 import OilDepot from './OilDepot';
-import TableView from './TableView';
 import { read, utils } from 'xlsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
-import './TableView.css';
+// import TableView from './TableView';
+// import './TableView.css';
+import DemoTable from './DemoTable';
+import './DemoTable.css';
 // import ExcelFile from '../DataFiles/SolnV3.xlsx';
 // import ExcelFile from '../DataFiles/Stocks.xlsx';
 
@@ -192,18 +194,25 @@ const HSBarChart = () => {
                 </p>
             </div>
 
-            <div className='fillLine-Table'>
+            <div className="fillLine-Table">
                 <div>
-                    <h1>
+                    <h4>
                         {sliderValue} {month} {year} Table
-                    </h1>
-                    <TableView data={todayData} />
+                    </h4>
+                    <DemoTable data={todayData} />
                 </div>
                 <div>
-                    <h1>
-                        {sliderValue + 1} {month} {year} Table
-                    </h1>
-                    <TableView data={tomorrowData} />
+                    {sliderValue === 31 ? (
+                        <h4>
+                            {sliderValue} {month} {year} Table
+                        </h4>
+                    ) : (
+                        <h4>
+                            {sliderValue + 1} {month} {year} Table
+                        </h4>
+                    )}
+
+                    <DemoTable data={tomorrowData} />
                 </div>
             </div>
         </>
